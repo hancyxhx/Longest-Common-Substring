@@ -29,9 +29,9 @@ static void init(int s1_length, int s2_length){
 	_matrix_collumn_size = s2_length+1;
     }
 
-    for (int i = 0; i < s1_length; i++)
+    for (int i = 0; i <= s1_length; i++)
 	_matrix[i][s2_length] = 0;
-    for (int j = 0; j < s2_length; j++)
+    for (int j = 0; j <= s2_length; j++)
 	_matrix[s1_length][j] = 0;
 }
 
@@ -42,7 +42,7 @@ int LCS(char *s1, char *s2, char **longest_common_substring){
 
     init(s1_length, s2_length);
 
-    int max_len = 0, max_index_i = -1, max_index_j = -1;
+    int max_len = 0, max_index_i = -1;
     for (int i = s1_length-1; i >= 0; i--){
     	for (int j = s2_length-1; j >= 0; j--){
     	    if (s1[i] != s2[j]){
@@ -54,9 +54,15 @@ int LCS(char *s1, char *s2, char **longest_common_substring){
     	    if (_matrix[i][j] > max_len){
     		max_len = _matrix[i][j];
     		max_index_i = i;
-    		max_index_j = j;
     	    }
     	}
+    }
+
+    if (longest_common_substring != NULL){
+	*longest_common_substring = malloc(sizeof(char) * (max_len+1));
+	strncpy(*longest_common_substring, s1+max_index_i, max_len);
+	(*longest_common_substring)[max_len] = '\0';
+	printf("%s\n", *longest_common_substring);
     }
 
     return max_len;
@@ -66,9 +72,9 @@ int LCS(char *s1, char *s2, char **longest_common_substring){
 int main(int argc, char *argv[]){
     char *s1 = "abcdefg";
     char *s2 = "cde";
-    
 
-    printf("%d\n", LCS(s1, s2, NULL));
+    char *lala;
+    printf("%d\n", LCS(s1, s2, &lala));
 
     return 0;
 }
